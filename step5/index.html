@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    function SecondsToTime() {
+        const [amount, setAmount] = React.useState(0);
+        const [unit, setUnit] = React.useState("s");
+        const onChange = (event) => {
+            setAmount(event.target.value);
+        };
+        const reset = () => setAmount(0);
+        const changeTime = (newUnit) => {
+            reset();
+            setUnit(newUnit);
+        };
+        return (
+            <div>
+                <label htmlFor="second">second</label>
+                <input
+                    value={
+                        unit == "s" ? amount :
+                            unit == "m" ? amount * 60 :
+                                amount * 3600
+                    }
+                    id="second"
+                    placeholder="second"
+                    type="number"
+                    onChange={onChange}
+                    disabled={unit != "s"}
+                />
+                <label htmlFor="minutes">Minutes</label>
+                <input
+                    value={
+                        unit == "s" ? amount / 60 :
+                            unit == "m" ? amount :
+                                amount * 60
+                    }
+                    id="minutes"
+                    placeholder="amount"
+                    type="number"
+                    onChange={onChange}
+                    disabled={unit != "m"}
+                />
+                <label htmlFor="hours">Hours</label>
+                <input
+                    value={
+                        unit == "s" ? amount / 3600 :
+                            unit == "m" ? amount / 60 :
+                                amount
+                    }
+                    id="hours"
+                    placeholder="Hours"
+                    type="number"
+                    onChange={onChange}
+                    disabled={unit != "h"}
+                />
+                <div>
+                    <button type="text" onClick={reset}>Reset</button>
+                    <button type="text" onClick={() => changeTime("s")}>Second</button>
+                    <button type="text" onClick={() => changeTime("m")}>Minutes</button>
+                    <button type="text" onClick={() => changeTime("h")}>Hours</button>
+                </div>
+            </div>
+        );
+    }
+    function KmToMiles () {
+        const [distance, setDistance] = React.useState(0);
+        const [inverted, setInverted] = React.useState(false);
+        const onChange = (event) => {
+            reset();
+            setDistance(event.target.value);
+        }
+        const conversion = () => {
+            reset();
+            setInverted(!inverted);
+        }
+        const reset = () => setDistance(0);
+        return (
+            <div>
+                <h3>Km to Miles</h3>
+                <label htmlFor="km">Km</label>
+                <input
+                    id="km"
+                    type="number"
+                    onChange={onChange}
+                    value={inverted ? (distance * 1.609).toFixed(2) : distance}
+                    disabled={inverted}
+                />
+                <label htmlFor="miles">Miles</label>
+                <input
+                    id="miles"
+                    type="number"
+                    onChange={onChange}
+                    value={inverted ? distance : (distance / 1.609).toFixed(2)}
+                    disabled={!inverted}
+                />
+                <button onClick={reset} >Reset</button>
+                <button onClick={conversion}>conversion</button>
+            </div>
+        )
+    }
+    function App() {
+        const [index, setIndex] = React.useState("xx");
+        const onSelect = (event) => {
+            setIndex(event.target.value);
+        }
+        return (
+            <div>
+                <h1>Super Converter</h1>
+                <select onChange={onSelect}>
+                    <option value="xx">Select you units</option>
+                    <option value="0"> Km & Miles </option>
+                    <option value="1"> Second to Time </option>
+                </select>
+                <hr />
+                {index === "xx" ? "Please select your units" : null}
+                {index === "0" ? <KmToMiles /> : null}
+                {index === "1" ? <SecondsToTime /> : null}
+            </div>
+        );
+    }
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+</script>
+</html>
