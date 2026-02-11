@@ -1,11 +1,13 @@
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
 
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+
 function Detail() {
     const {id} = useParams();
     const getMovie = async () => {
-        const json = await(
-            await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+        const json = await (
+            await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=ko-KR`)
         ).json();
         console.log(json);
     }
