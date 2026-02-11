@@ -31,21 +31,24 @@ function Home () {
         getMovies();
     }, []);
     return (
-        <div>
+        <div className="home-container">
             {loading ? (
-                <h1>Loading...</h1>
+                <h1 className="loading">🎬 Loading...</h1>
             ) : (
                 <div>
-                    {movies.map((movie) => (
-                        <Movies
-                            key={movie.id}
-                            id={movie.id}
-                            coverImg={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            title={movie.title}
-                            summary={movie.overview}
-                            genres={movie.genre_ids.map((id) => genreMap[id] || "기타")}
-                        />
-                    ))}
+                    <h1 className="home-title">🎬 Top Rated Movies</h1>
+                    <div className="movies-grid" >
+                        {movies.map((movie) => (
+                            <Movies
+                                key={movie.id}
+                                id={movie.id}
+                                coverImg={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                title={movie.title}
+                                summary={movie.overview}
+                                genres={movie.genre_ids.map((id) => genreMap[id] || "기타")}
+                            />
+                        ))}
+                    </div>
                 </div>
             )}
         </div>
